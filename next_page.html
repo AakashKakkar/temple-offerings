@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temple Offerings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Temple_in_India.jpg/800px-Temple_in_India.jpg'); /* Replace with your image path */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            position: relative; /* Allow absolute positioning for animated items */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        .central-image {
+            width: 60%; /* Adjust width as needed */
+            max-width: 600px; /* Maximum width */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            margin-bottom: 40px; /* Space below the image */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 0 20px; /* Padding for buttons */
+            margin-top: 20px; /* Space above buttons */
+        }
+
+        .action-button {
+            padding: 10px 15px; /* Smaller button size */
+            font-size: 1.2em; /* Smaller font size */
+            color: #FF9800; /* Text color */
+            background-color: #F9EED9; /* Button background color */
+            border: 1px solid #FF9800; /* 1px stroke */
+            border-radius: 15px; /* Curved edges */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none; /* Remove underline */
+        }
+
+        .action-button:hover {
+            background-color: #FFB74D; /* Hover color */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.8;
+            pointer-events: none; /* Prevent interaction */
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Central image from local file -->
+    <img src="images/pixelcut-export.jpeg" alt="Temple" class="central-image"> <!-- Local image -->
+
+    <div class="button-container">
+        <button class="action-button" onclick="animateConfetti()">Celebrate!</button>
+    </div>
+
+    <audio id="celebrationSound" src="sounds/firework.mp3">freesound_community</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=29629""auto"></audio> <!-- Replace with your sound file -->
+
+    <script>
+        function animateConfetti() {
+            const confettiCount = 100 * 5; // Number of confetti pieces (5 times the original)
+            const sound = document.getElementById('celebrationSound');
+            sound.play(); // Play the celebration sound
+
+            // Stop the audio after 5 seconds
+            setTimeout(() => {
+                sound.pause(); // Pause the audio
+                sound.currentTime = 0; // Reset the audio to the beginning
+            }, 5000); // 5000 milliseconds = 5 seconds
+
+            for (let i = 0; i < confettiCount; i++) {
+                createConfetti();
+            }
+        }
+        
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+
+            // Randomize position and color
+            confetti.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            confetti.style.backgroundColor = getRandomColor();
+            confetti.style.animationDuration = '5s'; // Set duration to 5 seconds
+
+            // Start from a random vertical position at the top
+            confetti.style.top = Math.random() * 20 + 'vh'; // Start from the top 20% of the viewport
+
+            document.body.appendChild(confetti);
+
+            // Start the animation
+            confetti.style.animation = 'fall 5s linear forwards'; // Set animation to fall for 5 seconds
+
+            // Remove the confetti after animation
+            confetti.addEventListener('animationend', () => {
+                confetti.remove();
+            });
+        }
+
+        function getRandomColor() {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#8E44AD', '#E74C3C'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
